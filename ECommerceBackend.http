@@ -1,0 +1,70 @@
+@ECHAddress = http://localhost:5202
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+### Update product
+PUT {{ECHAddress}}/api/products/1
+Content-Type: application/json
+
+{
+  "name": "Chicken Shawarma - Updated",
+  "description": "Updated description",
+  "price": 30.0,
+  "stockQuantity": 25
+}
+
+###! ################################################## !###
+###?    ...this is hte 1st question in the project...   ?###
+###! ################################################## !###
+### update quantity unsafely with Race Condition
+PUT {{ECHAddress}}/api/products/decrease-quantity-unsafe/1/3
+
+### update quantity with lock and transaction to avoid race condition 
+PUT {{ECHAddress}}/api/products/decrease-quantity-safe/1/2
+
+///////////////////////////////////////////////////////////////////////////////////
+
+###! ################################################## !###
+###?    ...this is hte 2sd question in the project...   ?###
+###! ################################################## !###
+### decrease quantity with multiple threads with semaphore
+PUT {{ECHAddress}}/api/products/decrease-quantity-controlled/1/2
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+
+### Get cart items (userId = 2)
+GET {{ECHAddress}}/api/cart
+
+### Add item to cart
+POST {{ECHAddress}}/api/cart/add?productId=2&quantity=11
+
+### Update quantity
+PUT {{ECHAddress}}/api/cart/update?productId=3&quantity=5
+
+###! ################################################## !###
+###?    ...this is hte 3ed question in the project...   ?###
+###! ################################################## !###
+### Create order from cart items sync
+POST {{ECHAddress}}/api/orders/create-sync
+
+### Create order from cart items async
+POST {{ECHAddress}}/api/orders/create-async
+
+
+///////////////////////////////////////////////////////////////////////////////////
+
+###! ################################################## !###
+###?    ...this is hte 4th question in the project...   ?###
+###! ################################################## !###
+### Generate daily sales report (sync)
+POST {{ECHAddress}}/api/reports/daily-report-sync
+
+### Generate daily sales report (batch)
+POST {{ECHAddress}}/api/reports/daily-report-batch
+
+
+### Generate daily sales report (batch with multiple threads)
+POST {{ECHAddress}}/api/reports/daily-report-batch-mthreads

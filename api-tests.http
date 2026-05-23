@@ -1,0 +1,124 @@
+@ECHAddress = http://localhost:5202
+
+############################################
+###############  USER APIs  ################
+############################################
+
+### Get all users
+GET {{ECHAddress}}/api/users
+
+### Get user by ID
+GET {{ECHAddress}}/api/users/1
+
+### Create user
+POST {{ECHAddress}}/api/users
+Content-Type: application/json
+
+{
+  "userName": "Yahia",
+  "email": "yahia@example.com",
+  "passwordHash": "1234"
+
+}
+
+### Update user
+PUT {{ECHAddress}}/api/users/1
+Content-Type: application/json
+
+{
+  "userName": "Yahia Updated",
+  "passwordHash": "1234",
+  "email": "newemail@example.com"
+}
+
+### Delete user
+DELETE {{ECHAddress}}/api/users/1
+
+
+
+############################################
+############### PRODUCT APIs ###############
+############################################
+
+### Get all products
+GET {{ECHAddress}}/api/products
+
+### Get product by ID
+GET {{ECHAddress}}/api/products/1
+
+### Create product
+POST {{ECHAddress}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Tomato",
+  "description": "Fresh Tomato ready for eating",
+  "price": 80.5,
+  "stock": 100
+}
+
+### Update product
+PUT {{ECHAddress}}/api/products/1
+Content-Type: application/json
+
+{
+  "name": "Chicken Shawarma - Updated",
+  "description": "Updated description",
+  "price": 30.0,
+  "stockQuantity": 3
+}
+
+### Delete product
+DELETE {{ECHAddress}}/api/products/1
+
+
+
+############################################
+###############  CART APIs  ################
+############################################
+
+### Get cart items (userId = 2)
+GET {{ECHAddress}}/api/cart
+
+### Add item to cart
+POST {{ECHAddress}}/api/cart/add?productId=2&quantity=11
+
+### Update quantity
+PUT {{ECHAddress}}/api/cart/update?productId=3&quantity=5
+
+### Remove item
+DELETE {{ECHAddress}}/api/cart/remove?productId=1
+
+### Clear cart
+DELETE {{ECHAddress}}/api/cart/clear
+
+
+
+############################################
+############### ORDER APIs #################
+############################################
+
+###! ################################################## !###
+###?    ...this is hte 3ed question in the project...   ?###
+###! ################################################## !###
+### Create order from cart items sync
+POST {{ECHAddress}}/api/orders/create-sync
+
+### Create order from cart items async
+POST {{ECHAddress}}/api/orders/create-async
+
+### Get all orders for user
+GET {{ECHAddress}}/api/orders
+
+### Get order by ID
+GET {{ECHAddress}}/api/orders/1
+
+###! ################################################## !###
+###?    ...this is hte 4th question in the project...   ?###
+###! ################################################## !###
+### Generate daily sales report (sync)
+POST {{ECHAddress}}/api/reports/daily-report-sync
+
+### Generate daily sales report (batch)
+POST {{ECHAddress}}/api/reports/daily-report-batch
+
