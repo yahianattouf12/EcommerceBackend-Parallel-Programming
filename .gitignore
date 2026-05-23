@@ -1,3 +1,8 @@
 bin/
 obj/
 *.log
+*.cache
+*.db
+*.sqlite
+*.pdb
+*.dll
