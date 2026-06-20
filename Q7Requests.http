@@ -1,0 +1,8 @@
+
+@ECHAddress = http://localhost:5202
+
+### Optimistic Locking Test
+POST {{ECHAddress}}/api/products/update-stock-optimistic?productId=1&quantity=1
+
+### Distributed Lock Test
+POST {{ECHAddress}}/api/products/update-stock-distributed?productId=1&quantity=1
