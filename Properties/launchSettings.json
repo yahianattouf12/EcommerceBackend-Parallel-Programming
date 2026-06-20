@@ -18,6 +18,31 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "StoreApi-8000": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:8000",
+      "dotnetRunMessages": true
+    },
+    "StoreApi-8001": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:8001",
+      "dotnetRunMessages": true
+    },
+    "StoreApi-8002": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:8002",
+      "dotnetRunMessages": true
+    },
+    "StoreApi-8003": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:8003",
+      "dotnetRunMessages": true
+    },
+    "StoreApi-8004": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:8004",
+      "dotnetRunMessages": true
     }
   }
 }

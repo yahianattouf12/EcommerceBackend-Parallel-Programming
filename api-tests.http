@@ -51,7 +51,7 @@ POST {{ECHAddress}}/api/products
 Content-Type: application/json
 
 {
-  "name": "Tomato",
+  "name": "Yo-Yo",
   "description": "Fresh Tomato ready for eating",
   "price": 80.5,
   "stock": 100

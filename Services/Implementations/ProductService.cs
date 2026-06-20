@@ -1,3 +1,4 @@
+using ECommerceBackend.AOP;
 using ECommerceBackend.Data;
 using ECommerceBackend.Models;
 using ECommerceBackend.Services.Interfaces;
@@ -21,6 +22,12 @@ public class ProductService : IProductService
     }
 
     public async Task<IEnumerable<Product>> GetAllAsync()
+    {
+        return await _context.Products.ToListAsync();
+    }
+
+    [Cache(60)] 
+    public async Task<List<Product>> GetAllProductsAsyncWithCache()
     {
         return await _context.Products.ToListAsync();
     }

@@ -1,0 +1,11 @@
+@ECHAddress = http://localhost:5202
+
+
+
+
+### Get all products without cache
+GET {{ECHAddress}}/api/products
+
+### Get all products (test caching)
+GET {{ECHAddress}}/api/products/products-with-cache
+Accept: application/json

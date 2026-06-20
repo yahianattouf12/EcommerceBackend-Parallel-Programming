@@ -94,4 +94,10 @@ public class ProductController : ControllerBase
     {
         return Ok(await _service.DeleteAsync(id));
     }
+
+    [HttpGet("products-with-cache")]
+    public async Task<IActionResult> GetAllProductsWithCache()
+    {
+        return Ok(await _service.GetAllProductsAsyncWithCache());
+    }
 }

@@ -1,0 +1,4 @@
+@Gateway = http://localhost:5269
+
+### Test load balancing
+GET {{Gateway}}/api/LoadSimulation/simulate-task?taskId=1
