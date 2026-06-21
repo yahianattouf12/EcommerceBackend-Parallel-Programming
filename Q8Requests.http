@@ -1,0 +1,42 @@
+
+
+@ECHAddress = http://localhost:5202
+
+@port1 = http://localhost:8000
+
+@port2 = http://localhost:8001
+
+
+### Get cart items (userId = 2)
+GET {{ECHAddress}}/api/cart
+
+
+### Update quantity
+PUT {{ECHAddress}}/api/cart/update?productId=5&quantity=56
+
+### Add item to cart
+POST {{ECHAddress}}/api/cart/add?productId=5&quantity=40
+
+
+
+### Q8 - Concurrent checkout (instance 1, same user)
+POST {{port1}}/api/orders/checkout?simulatePaymentFailure=false
+
+### Q8 - Concurrent checkout (instance 2, same user)
+POST {{port2}}/api/orders/checkout?simulatePaymentFailure=false
+
+
+
+
+### Q8 - Checkout success
+POST {{ECHAddress}}/api/orders/checkout?simulatePaymentFailure=false
+
+### Q8 - Checkout rollback
+POST {{ECHAddress}}/api/orders/checkout?simulatePaymentFailure=true
+
+### ============================================================
+### Run two instances (separate terminals) before the concurrency section above
+### ============================================================
+
+# dotnet run --urls "http://localhost:8000"
+# dotnet run --urls "http://localhost:8001"

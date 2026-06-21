@@ -1,6 +1,15 @@
 @ECHAddress = http://localhost:5202
 
+### Create product
+POST {{ECHAddress}}/api/products
+Content-Type: application/json
 
+{
+  "name": "eho",
+  "description": "Fresh Tomato ready for eating",
+  "price": 80.5,
+  "StockQuantity": 100
+}
 
 
 ### Get all products without cache

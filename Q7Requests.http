@@ -1,8 +1,23 @@
 
 @ECHAddress = http://localhost:5202
+@port1 = http://localhost:8000
+@port2 = http://localhost:8001
 
-### Optimistic Locking Test
-POST {{ECHAddress}}/api/products/update-stock-optimistic?productId=1&quantity=1
+### Optimistic Locking Test port1
+POST {{port1}}/api/products/update-stock-optimistic?productId=1&quantity=1
 
-### Distributed Lock Test
-POST {{ECHAddress}}/api/products/update-stock-distributed?productId=1&quantity=1
+### Optimistic Locking Test port2
+POST {{port2}}/api/products/update-stock-optimistic?productId=1&quantity=1
+
+
+
+
+
+### Distributed Lock Test port1
+POST {{port1}}/api/products/update-stock-distributed?productId=1&quantity=1
+
+### Distributed Lock Test port2
+POST {{port2}}/api/products/update-stock-distributed?productId=1&quantity=1
+
+dotnet run  --urls "http://localhost:8000"
+dotnet run  --urls "http://localhost:8001"

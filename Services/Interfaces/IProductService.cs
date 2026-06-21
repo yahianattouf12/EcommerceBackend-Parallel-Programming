@@ -15,4 +15,9 @@ public interface IProductService
     Task DecreaseQuantityControlledAsync(int productId, int qty);
 
     Task<List<Product>> GetAllProductsAsyncWithCache();
+
+    Task<Product> UpdateStockOptimisticAsync(int productId, int quantity);
+
+    Task<Product> UpdateStockDistributedAsync(int productId, int quantity);
+
 }

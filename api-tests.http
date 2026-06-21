@@ -15,8 +15,8 @@ POST {{ECHAddress}}/api/users
 Content-Type: application/json
 
 {
-  "userName": "Yahia",
-  "email": "yahia@example.com",
+  "userName": "Nohaily",
+  "email": "yazan@example.com",
   "passwordHash": "1234"
 
 }

@@ -100,4 +100,33 @@ public class ProductController : ControllerBase
     {
         return Ok(await _service.GetAllProductsAsyncWithCache());
     }
+
+
+    [HttpPost("update-stock-optimistic")]
+    public async Task<IActionResult> UpdateStockOptimistic(int productId, int quantity)
+    {
+        try
+        {
+            var product = await _service.UpdateStockOptimisticAsync(productId, quantity);
+            return Ok(product);
+        }
+        catch (Exception ex)
+        {
+            return Conflict(ex.Message);
+        }
+    }
+
+    [HttpPost("update-stock-distributed")]
+    public async Task<IActionResult> UpdateStockDistributed(int productId, int quantity)
+    {
+        try
+        {
+            var product = await _service.UpdateStockDistributedAsync(productId, quantity);
+            return Ok(product);
+        }
+        catch (Exception ex)
+        {
+            return Conflict(ex.Message);
+        }
+    }
 }

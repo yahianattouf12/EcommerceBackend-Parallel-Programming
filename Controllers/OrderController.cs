@@ -1,6 +1,7 @@
 using ECommerceBackend.BackgroundJobs;
 using ECommerceBackend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceBackend.Controllers;
 
@@ -26,7 +27,8 @@ public class OrderController : ControllerBase
     }
 
     //todo : hard code you should to replace it with some logic
-    private const int UserId = 2;
+    private const int UserId = 3;
+    private const int userId8 = 3;
 
 
     //! ////////////////////////////////////////////////// !//
@@ -67,5 +69,24 @@ public class OrderController : ControllerBase
     {
         var order = await _orderService.GetOrderByIdAsync(orderId, UserId);
         return order == null ? NotFound() : Ok(order);
+    }
+
+    //? الطلب الثامن ??????????????????????????????????????????????????????
+    [HttpPost("checkout")]
+    public async Task<IActionResult> Checkout([FromQuery] bool simulatePaymentFailure = false)
+    {
+        try
+        {
+            var order = await _orderService.CheckoutAsync(userId8, simulatePaymentFailure);
+            return Ok(order);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return Conflict("Stock changed concurrently, please retry.");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

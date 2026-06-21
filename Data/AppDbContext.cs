@@ -15,6 +15,8 @@ public class AppDbContext : DbContext
     public DbSet<Invoice> Invoices => Set<Invoice>();
     public DbSet<DailySalesReport> DailySalesReports => Set<DailySalesReport>();
 
+    public DbSet<Payment> Payments => Set<Payment>();
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -63,7 +65,17 @@ public class AppDbContext : DbContext
         {
             e.HasIndex(i => i.OrderId).IsUnique();
         });
-        
+
+        modelBuilder.Entity<Product>()
+        .Property(p => p.RowVersion)
+        .IsRowVersion();
+
+        // Payment → Order
+        modelBuilder.Entity<Payment>()
+            .HasOne(p => p.Order)
+            .WithMany()
+            .HasForeignKey(p => p.OrderId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
 }

@@ -11,6 +11,8 @@ public class Product
     public int StockQuantity { get; set; }
     public bool IsActive { get; set; } = true;
 
+    public byte[]? RowVersion { get; set; }
+
     // Relations
     [JsonIgnore]
     public List<CartItem> CartItems { get; set; } = new();

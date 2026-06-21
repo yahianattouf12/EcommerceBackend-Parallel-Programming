@@ -142,4 +142,83 @@ public class ProductService : IProductService
         }
     }
 
+    //?  this is the 7 question >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    public async Task<Product> UpdateStockOptimisticAsync(int productId, int quantity)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        const int maxRetries = 3;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++)
+        {
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            if (product == null)
+                throw new Exception("Product not found");
+
+            if (product.StockQuantity < quantity)
+                throw new Exception("Not enough stock");
+
+            product.StockQuantity -= quantity;
+
+            await Task.Delay(1500);
+
+            try
+            {
+                await context.SaveChangesAsync();
+                Console.WriteLine($"[Optimistic] ProductId={productId} updated successfully on attempt {attempt}.");
+                return product;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                Console.WriteLine($"[Optimistic] ProductId={productId} conflict detected on attempt {attempt}, retrying with fresh data...");
+                context.Entry(product).State = EntityState.Detached;
+
+                if (attempt == maxRetries)
+                    throw new Exception("Stock update failed after multiple attempts due to concurrent modification.");
+            }
+        }
+
+        throw new Exception("Unreachable");
+    }
+
+    public async Task<Product> UpdateStockDistributedAsync(int productId, int quantity)
+    {
+        using var scope = _serviceProvider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        using var transaction = await context.Database.BeginTransactionAsync();
+
+        try
+        {
+            var product = await context.Products
+                .FromSqlInterpolated($"SELECT * FROM Products WITH (UPDLOCK, ROWLOCK) WHERE Id = {productId}")
+                .FirstOrDefaultAsync();
+
+            if (product == null)
+                throw new Exception("Product not found");
+
+            if (product.StockQuantity < quantity)
+                throw new Exception("Not enough stock");
+
+            Console.WriteLine($"[Distributed Lock] Row locked for ProductId={productId}, processing...");
+
+            await Task.Delay(3000);
+
+            product.StockQuantity -= quantity;
+            await context.SaveChangesAsync();
+
+            await transaction.CommitAsync();
+            Console.WriteLine($"[Distributed Lock] Lock released for ProductId={productId}.");
+
+            return product;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
+
 }
